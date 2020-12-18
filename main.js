@@ -51,12 +51,13 @@ const findUsernamePassword = makeQuery(queryUsernamePassword, pool);
 app.post('/api/authenticate', express.urlencoded({extended: true}), async (req, res) => {
 	const payload = req.body;
 	console.log(payload, payload['userName'],)
-await findUsernamePassword([payload["userName"]])
+	await findUsernamePassword([payload["userName"]])
         .then((results)=> {
             //for (let r of results) {
             //    console.log('>>>r: ', r);
-           // }
-
+		   // }
+		   console.log(results.length > 0 && payload['password'] === results[0].password);
+		   
             if (results.length > 0 && payload['password'] === results[0].password){
 				const isAuthenticated = 'Yes';
                 res.format({ 
